@@ -33,7 +33,7 @@ def paste():
     try:
         db.session.add(paste)
         db.session.commit()
-        return jsonify({ "id": paste.id }), 200 # return the correct id
+        return jsonify({ "id": paste.id }), 200
 
     except DataError:
         return jsonify({ "error": "Either 'title' or 'content' contains too many characters" }), 400
