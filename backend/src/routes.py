@@ -9,6 +9,13 @@ from .models import Paste
 
 HEADERS = {"title", "content"}
 
+def jsonify_paste(paste):
+    return {
+        "title": paste.title, 
+        "content": paste.content, 
+        "createdAt": datetime.strftime(paste.created_at, "%y-%m-%d %H:%M:%S")
+    }
+
 @app.route('/api/paste', methods=['POST'])
 def paste():
     try:
@@ -33,3 +40,20 @@ def paste():
 
     except Exception:
         return jsonify({ "error": "Something went wrong." }), 400
+
+
+@app.route('/api/<int:paste_id>', methods=['GET'])
+def get(paste_id):
+    try:
+        paste = Paste.query.get(paste_id)
+        return jsonify_paste(paste), 200
+    except AttributeError:
+        return "", 404
+    except Exception:
+        return jsonify({ "error": "Something went wrong." }), 500
+
+
+@app.route('/api/recents', methods=['POST'])
+def recents():
+    pastes = Paste.query.order_by(Paste.created_at.desc()).limit(100)
+    return jsonify([jsonify_paste(paste) for paste in pastes]), 200
