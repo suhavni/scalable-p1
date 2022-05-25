@@ -30,9 +30,9 @@ jobs:
     - name: Build the Docker image
       run: |
         docker build . --file Dockerfile \
-        --tag ghcr.io/${{ env.BASE_IMG_NAME }}/scalable-p1-backend:${{ steps.vars.outputs.sha_short }} \
-        --tag ghcr.io/${{ env.BASE_IMG_NAME }}/scalable-p1-backend:latest
+        --tag ghcr.io/${{ env.BASE_IMG_NAME }}/backend:${{ steps.vars.outputs.sha_short }} \
+        --tag ghcr.io/${{ env.BASE_IMG_NAME }}/backend:latest
     - name: Publish the images
       run: | 
-        docker push ghcr.io/${{ env.BASE_IMG_NAME }}/scalable-p1-backend:${{ steps.vars.outputs.sha_short }}
-        docker push ghcr.io/${{ env.BASE_IMG_NAME }}/scalable-p1-backend:latest
+        docker push ghcr.io/${{ env.BASE_IMG_NAME }}/backend:${{ steps.vars.outputs.sha_short }}
+        docker push ghcr.io/${{ env.BASE_IMG_NAME }}/backend:latest
