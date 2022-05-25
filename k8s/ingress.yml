@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: p1-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/recents
+        pathType: Exact
+        backend:
+          service: 
+            name: recent-pastes
+            port:
+              number: 5000
+      - path: /api/
+        pathType: Prefix
+        backend:
+          service:
+            name: p1-backend
+            port:
+              number: 5000
