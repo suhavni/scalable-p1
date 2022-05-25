@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p1-backend
+  labels:
+    app: p1-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: p1-backend
+  template:
+    metadata:
+      labels:
+        app: p1-backend
+    spec:
+      containers:
+      - name: backend 
+        image: ghcr.io/cs-muic/scalable-p1-suhavni/backend
+        imagePullPolicy: Always
+        env:
+        - name: SQLALCHEMY_DATABASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: sqlalchemydburi-github-com
+              key: sqlalchemy_database_uri
+      imagePullSecrets:
+      - name: dockerconfigjson-github-com

@@ -1,2 +1,11 @@
+# Personal environment vars
 backend/.env
-**/__pycache__/**
+
+# Bulky unnecessary temp files
+**/__pycache__/
+
+# Secrets
+k8s/dockerconfigjson.yml
+k8s/mariadbrootpassword.yml
+k8s/mariadbuserpassword.yml
+k8s/sqlalchemydburi.yml

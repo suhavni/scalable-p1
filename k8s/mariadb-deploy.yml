@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: p1-mariadb
+spec:
+  selector:
+    matchLabels:
+      app: p1-mariadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: p1-mariadb
+    spec:
+      containers:
+      - image: mariadb
+        name: p1-mariadb
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadbrootpassword-github-com
+              key: password
+        - name: MYSQL_USER
+          value: suhavni
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadbuserpassword-github-com
+              key: password
+        - name: MYSQL_DATABASE
+          value: p1_db
+        ports:
+        - containerPort: 3306
+          name: p1-mariadb
+        volumeMounts:
+        - name: mariadb-persistent-storage
+          mountPath: /var/lib/mariadb
+      volumes:
+      - name: mariadb-persistent-storage
+        persistentVolumeClaim:
+          claimName: mariadb-pv-claim
