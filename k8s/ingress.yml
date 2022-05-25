@@ -14,11 +14,11 @@ spec:
           service: 
             name: recent-pastes
             port:
-              number: 5000
+              number: 80
       - path: /api/
         pathType: Prefix
         backend:
           service:
             name: p1-backend
             port:
-              number: 5000
+              number: 80
