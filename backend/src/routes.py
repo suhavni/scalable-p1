@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from flask import Flask, jsonify, request
+from flask import jsonify, request
 from flask import current_app as app
-from . import db
+from . import db, cache
 from sqlalchemy.exc import DataError
 
 from .models import Paste
@@ -54,6 +54,7 @@ def get(paste_id):
 
 
 @app.route('/api/recents', methods=['POST'])
+@cache.cached(timeout=1)
 def recents():
     pastes = Paste.query.order_by(Paste.created_at.desc()).limit(100)
     return jsonify([jsonify_paste(paste) for paste in pastes]), 200

@@ -2,3 +2,5 @@ Flask
 Flask-SQLAlchemy
 PyMySQL
 gunicorn
+redis
+Flask-Caching
