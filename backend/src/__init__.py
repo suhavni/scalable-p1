@@ -1,7 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_caching import Cache
-
 db = SQLAlchemy()
 
 def init_app():
@@ -18,6 +16,6 @@ def init_app():
     return app
 
 app = init_app()
-cache = Cache(app)
+
 if __name__ == '__main__':
     app.run()

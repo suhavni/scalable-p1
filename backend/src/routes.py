@@ -2,12 +2,14 @@ from datetime import datetime
 
 from flask import jsonify, request
 from flask import current_app as app
-from . import db, cache
+from flask_caching import Cache
 from sqlalchemy.exc import DataError
 
+from . import db
 from .models import Paste
 
 HEADERS = {"title", "content"}
+cache = Cache(app)
 
 def jsonify_paste(paste):
     return {
