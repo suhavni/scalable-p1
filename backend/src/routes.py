@@ -56,7 +56,7 @@ def get(paste_id):
 
 
 @app.route('/api/recents', methods=['POST'])
-@cache.cached(timeout=1)
+@cache.cached(timeout=1.5)
 def recents():
     pastes = Paste.query.order_by(Paste.created_at.desc()).limit(100)
     return jsonify([jsonify_paste(paste) for paste in pastes]), 200
