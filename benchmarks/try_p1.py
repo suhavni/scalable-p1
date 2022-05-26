@@ -17,7 +17,7 @@ class PasteBin(HttpUser):
     
     def get(self):
         global PASTES_SO_FAR
-        paste_id = random.randint(1, PASTES_SO_FAR+1)
+        paste_id = random.randint(1, PASTES_SO_FAR)
         return self.client.get(url=f"/api/{paste_id}")
 
     def recents(self):
