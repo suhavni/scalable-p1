@@ -3,13 +3,11 @@ from datetime import datetime
 from flask import jsonify, request
 from flask import current_app as app
 from sqlalchemy.exc import DataError
-from werkzeug.contrib.cache import RedisCache as Cache
 
-from . import db
+from . import db, cache
 from .models import Paste
 
 HEADERS = {"title", "content"}
-cache = Cache(host='redis', port=6379, password=None, db=0, default_timeout=1)
 
 def jsonify_paste(paste):
     return {
@@ -56,10 +54,7 @@ def get(paste_id):
 
 
 @app.route('/api/recents', methods=['POST'])
+@cache.cached(timeout=1)
 def recents():
-    res = cache.get('recents')
-    if res is None:
-        pastes = Paste.query.order_by(Paste.id.desc()).limit(100)
-        res = [jsonify_paste(paste) for paste in pastes]
-        cache.set('recents', res)
-    return jsonify(res), 200
+    pastes = Paste.query.order_by(Paste.id.desc()).limit(100)
+    return jsonify([jsonify_paste(paste) for paste in pastes]), 200
