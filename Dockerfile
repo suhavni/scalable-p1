@@ -16,9 +16,8 @@ FROM python:3.9-alpine AS deployment
 COPY --from=build usr/src/app/ usr/src/app
 COPY --from=build /usr/local/lib/python3.9 /usr/local/lib/python3.9
 COPY --from=build /usr/local/bin/gunicorn /usr/local/bin/gunicorn
-COPY --from=build /usr/local/bin/tzdata /usr/local/bin/tzdata
 
-COPY /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
+COPY --from=build /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 WORKDIR /usr/src/app
 
