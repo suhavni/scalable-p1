@@ -1,35 +1,26 @@
 from locust import HttpUser, task
 import random
-import string
 
-LETTERS = string.ascii_letters
 PASTES_SO_FAR = 0
 
 class PasteBin(HttpUser):
+    @task
     def paste(self):
         global PASTES_SO_FAR
         PASTES_SO_FAR += 1
-        # print("PASTE:\n", PASTES_SO_FAR)
-        len_title = random.randint(1, 100)
-        len_content = random.randint(1, 400)
-        title = ''.join(random.choice(LETTERS) for _ in range(len_title))
-        content = ''.join(random.choice(LETTERS) for _ in range(len_content))
-        return self.client.post(url="/api/paste", json={"title": title, "content": content})
+        title = f"This is the title of paste number {PASTES_SO_FAR}"
+        content = f"Generating random number, {random.randint(1, 400)}"
+        self.client.post(url="/api/paste", json={"title": title, "content": content})
     
+    @task(3)
     def get(self):
-        # print("GET:\n", PASTES_SO_FAR)
+        if PASTES_SO_FAR == 0: return
         paste_id = random.randint(1, (PASTES_SO_FAR+1)//2)
-        return self.client.get(url=f"/api/{paste_id}")
+        self.client.get(url=f"/api/{paste_id}")
 
+    @task(2)
     def recents(self):
-        return self.client.post(url=f"/api/recents")
+        self.client.post(url=f"/api/recents")
 
-    @task
-    def test_requests(self):
-        api_type = random.randint(0, 2)
-        if api_type == 0:
-            _ = self.paste()
-        elif api_type == 1 and PASTES_SO_FAR > 0:
-            _ = self.get()
-        else:
-            _ = self.recents()
+    def on_start(self):
+        self.paste()
