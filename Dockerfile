@@ -23,4 +23,4 @@ WORKDIR /usr/src/app
 
 EXPOSE 5000
 
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--threads", "4", "src.wsgi:app"]
+ENTRYPOINT ["gunicorn", "--bind", ":5000", "--workers", "2", "--threads", "4", "src.wsgi:app"]

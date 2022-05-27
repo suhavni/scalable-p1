@@ -38,7 +38,7 @@ def paste():
     except DataError:
         return jsonify({ "error": "Either 'title' or 'content' contains too many characters" }), 400
 
-    except Exception:
+    except:
         return jsonify({ "error": "Something went wrong." }), 400
 
 
