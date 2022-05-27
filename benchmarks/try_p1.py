@@ -14,8 +14,7 @@ class PasteBin(HttpUser):
     
     @task(3)
     def get(self):
-        if PASTES_SO_FAR == 0: return
-        paste_id = random.randint(1, (PASTES_SO_FAR+1)//2)
+        paste_id = random.randint(1, PASTES_SO_FAR)
         self.client.get(url=f"/api/{paste_id}")
 
     @task(2)
