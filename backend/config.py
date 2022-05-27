@@ -10,7 +10,7 @@ class Config:
     # Redis
     CACHE_TYPE = 'FileSystemCache'
     CACHE_DIR = 'cache'
-    CACHE_THRESHOLD = 1
+    CACHE_THRESHOLD = 5
     # CACHE_REDIS_HOST = 'redis'
     # CACHE_REDIS_PORT = 'redis'
     # CACHE_REDIS_DB = 0
