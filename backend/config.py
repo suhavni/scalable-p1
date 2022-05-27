@@ -1,5 +1,4 @@
 from os import getenv
-from readline import redisplay
 
 class Config:
     # Database
@@ -7,6 +6,6 @@ class Config:
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # Redis
+    # Caching
     CACHE_TYPE = 'SimpleCache'
     CACHE_DEFAULT_TIMEOUT = 0.5

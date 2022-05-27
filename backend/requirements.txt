@@ -3,4 +3,3 @@ Flask-SQLAlchemy
 PyMySQL
 gunicorn
 Flask-Caching
-redis
