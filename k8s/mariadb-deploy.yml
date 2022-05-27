@@ -31,6 +31,8 @@ spec:
               key: password
         - name: MYSQL_DATABASE
           value: p1_db
+        - name: TZ
+          value: Asia/Bangkok
         ports:
         - containerPort: 3306
           name: p1-mariadb

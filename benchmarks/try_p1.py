@@ -12,12 +12,12 @@ class PasteBin(HttpUser):
         content = f"Generating random number, {random.randint(1, 400)}"
         self.client.post(url="/api/paste", json={"title": title, "content": content})
     
-    @task(3)
+    @task(2)
     def get(self):
         paste_id = random.randint(1, PASTES_SO_FAR)
         self.client.get(url=f"/api/{paste_id}")
 
-    @task(2)
+    @task(3)
     def recents(self):
         self.client.post(url=f"/api/recents")
 

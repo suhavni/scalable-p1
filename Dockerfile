@@ -7,14 +7,20 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR usr/src/app
 
 COPY ./backend /usr/src/app/
+RUN apt update && apt install tzdata -y
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # DEPLOYMENT STAGE
 FROM python:3.9-alpine AS deployment
 
+
 COPY --from=build usr/src/app/ usr/src/app
 COPY --from=build /usr/local/lib/python3.9 /usr/local/lib/python3.9
 COPY --from=build /usr/local/bin/gunicorn /usr/local/bin/gunicorn
+COPY --from=build /usr/local/bin/tzdata /usr/local/bin/tzdata
+
+ENV TZ="Asia/Bangkok"
+
 WORKDIR /usr/src/app
 
 EXPOSE 5000
