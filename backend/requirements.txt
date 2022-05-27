@@ -2,4 +2,4 @@ Flask
 Flask-SQLAlchemy
 PyMySQL
 gunicorn
-werkzeug
+werkzeug==0.16.0
