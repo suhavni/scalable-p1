@@ -9,6 +9,7 @@ class PasteBin(HttpUser):
     def paste(self):
         global PASTES_SO_FAR
         PASTES_SO_FAR += 1
+        # print("PASTE:\n", PASTES_SO_FAR)
         len_title = random.randint(1, 100)
         len_content = random.randint(1, 400)
         title = ''.join(random.choice(LETTERS) for _ in range(len_title))
@@ -16,7 +17,8 @@ class PasteBin(HttpUser):
         return self.client.post(url="/api/paste", json={"title": title, "content": content})
     
     def get(self):
-        paste_id = random.randint(1, PASTES_SO_FAR)
+        # print("GET:\n", PASTES_SO_FAR)
+        paste_id = random.randint(1, (PASTES_SO_FAR+1)//2)
         return self.client.get(url=f"/api/{paste_id}")
 
     def recents(self):
