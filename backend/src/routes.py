@@ -2,14 +2,14 @@ from datetime import datetime
 
 from flask import jsonify, request
 from flask import current_app as app
-from flask_caching import Cache
 from sqlalchemy.exc import DataError
+from werkzeug.contrib.cache import FileSystemCache as Cache
 
 from . import db
 from .models import Paste
 
 HEADERS = {"title", "content"}
-cache = Cache(app)
+cache = Cache(cache_dir='cache', threshold=100, default_timeout=1)
 
 def jsonify_paste(paste):
     return {
@@ -56,7 +56,10 @@ def get(paste_id):
 
 
 @app.route('/api/recents', methods=['POST'])
-@cache.cached(timeout=2)
 def recents():
-    pastes = Paste.query.order_by(Paste.created_at.desc()).limit(100)
-    return jsonify([jsonify_paste(paste) for paste in pastes]), 200
+    res = cache.get('recents')
+    if res is None:
+        pastes = Paste.query.order_by(Paste.created_at.desc()).limit(100)
+        res = [jsonify_paste(paste) for paste in pastes]
+        cache.set('recents', res)
+    return jsonify(res), 200
